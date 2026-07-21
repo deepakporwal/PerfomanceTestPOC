@@ -1,0 +1,38 @@
+name: Create BlazeMeter Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Create BlazeMeter Test
+        env:
+          API_KEY: ${{ secrets.BLAZEMETER_API_KEY }}
+          API_SECRET: ${{ secrets.BLAZEMETER_API_SECRET }}
+        run: |
+          RESPONSE=$(curl -s -X POST "https://a.blazemeter.com/api/v4/tests" \
+            -u "$API_KEY:$API_SECRET" \
+            -H "Content-Type: application/json" \
+            -d '{
+                  "name":"GitHub Actions Test",
+                  "configuration":{
+                    "type":"external"
+                  }
+                }')
+
+          echo "$RESPONSE"
+
+          TEST_ID=$(echo "$RESPONSE" | jq -r '.result.id')
+
+          echo "Generated Test ID: $TEST_ID"
+
+          echo "TEST_ID=$TEST_ID" >> $GITHUB_ENV
