@@ -53,14 +53,9 @@ jobs:
         run: |
           bzt --version
           k6 version
-          
-      - name: Execute Taurus Test
+      
+      - name: Print executed Test ID
         run: |
-          run: bzt -v taurus/taurus.yml
-
-      - name: Upload Taurus Artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: taurus-artifacts
-          path: /home/runner/work/PerfomanceTestPOC/PerfomanceTestPOC/2026-07-21_15-40-14.075635          
+            TEST_ID="${{ github.run_id }}-${{ github.run_attempt }}"
+            echo "Executed Test ID: $TEST_ID"
+            echo "TEST_ID=$TEST_ID" >> "$GITHUB_ENV"              
