@@ -1,0 +1,23 @@
+name: Get BlazeMeter Test Details
+
+on:
+  workflow_dispatch:
+
+jobs:
+  get-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Test Details
+        env:
+          API_KEY: ${{ secrets.BLAZEMETER_API_KEY }}
+          API_SECRET: ${{ secrets.BLAZEMETER_API_SECRET }}
+          TEST_ID: 15782614
+        run: |
+          echo "Fetching BlazeMeter test details..."
+
+          curl --silent --location \
+            --user "$API_KEY:$API_SECRET" \
+            --header "Accept: application/json" \
+            "https://a.blazemeter.com/api/v4/tests/$TEST_ID" \
+            | jq .
