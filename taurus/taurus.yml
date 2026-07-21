@@ -1,0 +1,10 @@
+execution:
+  - executor: k6
+    scenario: website-test
+
+scenarios:
+  website-test:
+    script: ../k6/login-test.js
+
+reporting:
+  - module: final-stats
