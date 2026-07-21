@@ -38,20 +38,9 @@ jobs:
       - name: Run k6 directly
         run: |
           k6 run k6/login-test.js
-          
-      - name: Install Taurus
-        run: |
-          python -m pip install bzt
-      
-      - name: Check installed versions
-        run: |
-          python -m pip show bzt
-          k6 version
-
-
+ 
       - name: Check versions
         run: |
-          bzt --version
           k6 version
       
       - name: Print executed Test ID
