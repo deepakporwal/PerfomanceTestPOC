@@ -39,7 +39,11 @@ jobs:
         run: |
           k6 run k6/login-test.js
 
-
+      - name: Check versions
+        run: |
+          bzt --version
+          k6 version
+          
       - name: Execute Taurus Test
         run: |
           run: bzt -v taurus/taurus.yml
