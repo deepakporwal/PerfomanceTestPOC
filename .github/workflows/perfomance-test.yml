@@ -29,4 +29,11 @@ jobs:
 
       - name: Execute Taurus Test
         run: |
-          bzt taurus/taurus.yml
+          run: bzt -v taurus/taurus.yml
+
+      - name: Upload Taurus Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: taurus-artifacts
+          path: /home/runner/work/PerfomanceTestPOC/PerfomanceTestPOC/2026-07-21_15-40-14.075635          
