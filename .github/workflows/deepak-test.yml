@@ -2,7 +2,9 @@ name: My First GitHub Actions Workflow
 
 on:
   workflow_dispatch:
-
+  pull_request:
+      branches:
+        - feature/perfomance-test
 jobs:
   hello-world:
     runs-on: ubuntu-latest
