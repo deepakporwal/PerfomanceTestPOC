@@ -48,14 +48,30 @@ jobs:
             TEST_ID="${{ github.run_id }}-${{ github.run_attempt }}"
             echo "Executed Test ID: $TEST_ID"
             echo "TEST_ID=$TEST_ID" >> "$GITHUB_ENV"
-  sonarqube:
+ sonarqube:
+    name: SonarQube Scan
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      # Checkout repository
+      - name: Checkout source
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Full history for proper analysis
+          fetch-depth: 0
+
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # SonarQube Scan
       - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@v3
+        uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
